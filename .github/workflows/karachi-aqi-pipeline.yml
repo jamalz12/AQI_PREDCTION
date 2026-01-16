@@ -172,7 +172,7 @@ jobs:
 
     - name: Upload model artifacts
       if: steps.check_training.outputs.needs_training == 'true'
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: trained-models
         path: |
