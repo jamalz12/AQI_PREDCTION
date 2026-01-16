@@ -42,19 +42,7 @@ jobs:
       env:
         OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
       run: |
-        python -c "
-        import sys
-        sys.path.append('.')
-        from karachi_aqi_app import KarachiAQISystem
-        system = KarachiAQISystem()
-        weather = system.get_current_weather()
-        if weather:
-            system.store_current_data(weather)
-            print(f'✅ Collected and stored weather data: AQI {weather.get(\"aqi\", \"N/A\")}')
-        else:
-            print('❌ Failed to collect weather data')
-            sys.exit(1)
-        "
+        python scripts/ci_data_collection.py
 
     - name: Data quality check
       run: |
@@ -130,10 +118,8 @@ jobs:
 
     - name: Run model training
       if: steps.check_training.outputs.needs_training == 'true'
-      env:
-        OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
       run: |
-        python train_karachi_models.py
+        python scripts/ci_model_training.py
 
     - name: Evaluate model performance
       if: steps.check_training.outputs.needs_training == 'true'
