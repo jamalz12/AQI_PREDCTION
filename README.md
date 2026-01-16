@@ -246,6 +246,28 @@ class AQITrainingPipeline:
 4. Add tests if applicable
 5. Submit a pull request
 
+## 🔄 CI/CD Pipeline
+
+The project includes automated CI/CD using GitHub Actions for continuous data collection and model training.
+
+### GitHub Actions Setup
+
+1. **Workflow Location**: `.github/workflows/karachi-aqi-pipeline.yml`
+2. **Automated Schedule**:
+   - Data collection: Every hour
+   - Model training: Daily at 2 AM UTC
+3. **Manual Triggers**: Available via workflow dispatch
+4. **Required Secret**: Add `OPENWEATHER_API_KEY` as repository secret
+
+### Pipeline Features
+- **Automated Data Collection**: Hourly weather data collection for Karachi
+- **Smart Model Training**: Only retrains when needed (avoids unnecessary computation)
+- **Model Artifacts**: Saves trained models for 30 days
+- **Error Handling**: Robust fallback systems and comprehensive logging
+- **Data Quality Checks**: Automated validation of collected data
+
+**Status**: ✅ Active and running on https://github.com/jamalz12/AQI_PREDCTION
+
 ## 📄 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
