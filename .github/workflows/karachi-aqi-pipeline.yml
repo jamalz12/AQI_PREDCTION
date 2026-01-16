@@ -183,7 +183,7 @@ jobs:
   deploy:
     if: github.event.schedule == '0 2 * * *' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
-    needs: model-training
+    needs: [data-collection, model-training]
 
     steps:
     - name: Checkout repository
@@ -191,16 +191,29 @@ jobs:
 
     - name: Deploy notification
       run: |
+        echo "📊 Pipeline Status Report:"
+        echo ""
+
+        # Check data collection status
+        if [ "${{ needs.data-collection.result }}" == "success" ]; then
+          echo "✅ Data collection: SUCCESS"
+        else
+          echo "❌ Data collection: FAILED"
+        fi
+
+        # Check model training status
         if [ "${{ needs.model-training.result }}" == "success" ]; then
-          echo "🎉 Karachi AQI Pipeline completed successfully!"
-          echo "✅ Data collection: Completed"
-          echo "✅ Model training: Completed"
-          echo "✅ Model evaluation: Completed"
+          echo "✅ Model training: SUCCESS"
           echo "🚀 Models ready for production use"
         else
-          echo "⚠️ Karachi AQI Pipeline completed with issues"
-          echo "✅ Data collection: Completed"
-          echo "❌ Model training: Failed"
-          echo "🔧 Check the model training logs for details"
+          echo "❌ Model training: FAILED"
+          echo "🔧 Check model training logs for details"
+        fi
+
+        echo ""
+        if [ "${{ needs.data-collection.result }}" == "success" ] && [ "${{ needs.model-training.result }}" == "success" ]; then
+          echo "🎉 Karachi AQI Pipeline: COMPLETE SUCCESS!"
+        else
+          echo "⚠️ Karachi AQI Pipeline: COMPLETED WITH ISSUES"
           echo "📝 Pipeline will retry on next scheduled run"
         fi
