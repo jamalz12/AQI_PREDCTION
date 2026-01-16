@@ -160,8 +160,14 @@ def main():
     """Main function for CI/CD data collection"""
     api_key = os.getenv('OPENWEATHER_API_KEY')
 
+    # Temporary fallback for testing - REMOVE THIS IN PRODUCTION
     if not api_key:
-        print("❌ OPENWEATHER_API_KEY environment variable not set")
+        print("⚠️  OPENWEATHER_API_KEY environment variable not set")
+        print("🔧 Using fallback API key for testing (REMOVE IN PRODUCTION)")
+        api_key = "da06b92d3139ce209b04dba2132ad4ce"  # Temporary fallback
+
+    if not api_key:
+        print("❌ No API key available - please set OPENWEATHER_API_KEY")
         sys.exit(1)
 
     print("🚀 Starting CI/CD data collection for Karachi AQI...")
