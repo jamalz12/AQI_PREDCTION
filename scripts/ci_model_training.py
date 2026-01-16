@@ -132,7 +132,7 @@ class CIModelTrainer:
                     'actual': y_test[:10].tolist()
                 }
 
-                print(".3f"
+                print(f"   {name}: MAE = {mae:.3f}, RMSE = {rmse:.3f}, R² = {r2:.3f}")
             # Save models and scaler
             timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
 
@@ -194,9 +194,10 @@ class CIModelTrainer:
 
         for name, result in results.items():
             is_best = "🏆 BEST" if name == best_model[0] else ""
-            print(".3f"
-        print("
-🎉 Model training completed successfully!"        return True
+            print(f"   {name}: R² = {result['r2']:.3f}, MAE = {result['mae']:.3f} {is_best}")
+
+        print("\n🎉 Model training completed successfully!")
+        return True
 
 def main():
     """Main function for CI/CD model training"""
