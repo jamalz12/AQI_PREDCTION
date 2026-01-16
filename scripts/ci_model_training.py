@@ -87,7 +87,9 @@ class CIModelTrainer:
         sample_data = []
         for ts in timestamps:
             # Seasonal temperature variation (Karachi is hot)
-            base_temp = 25 + 5 * np.sin(2 * np.pi * ts.dayofyear / 365)
+            # Use day of year for seasonal calculation
+            day_of_year = ts.timetuple().tm_yday
+            base_temp = 25 + 5 * np.sin(2 * np.pi * day_of_year / 365)
             temperature = base_temp + np.random.normal(0, 3)
 
             # Humidity (typically high in Karachi)
