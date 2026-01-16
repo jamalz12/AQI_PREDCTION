@@ -1,0 +1,63 @@
+# AQI Prediction Project Configuration
+
+# OpenWeather API Configuration
+openweather:
+  api_key: "da06b92d3139ce209b04dba2132ad4ce"
+  base_url: "http://api.openweathermap.org/data/2.5"
+  endpoints:
+    current: "/weather"
+    forecast: "/forecast"
+    air_pollution: "/air_pollution"
+
+# Hopsworks Configuration
+hopsworks:
+  project_name: "aqi_prediction_project"
+  api_key: ""  # Add your Hopsworks API key here
+  host: "c.app.hopsworks.ai"
+
+# Data Collection Configuration
+data_collection:
+  cities: ["Karachi"]
+  collection_interval_hours: 1
+  historical_days: 365
+
+# Model Configuration
+models:
+  linear_regression:
+    enabled: true
+    hyperparameters:
+      fit_intercept: true
+
+  random_forest:
+    enabled: true
+    hyperparameters:
+      n_estimators: 100
+      max_depth: 20
+      random_state: 42
+
+  xgboost:
+    enabled: true
+    hyperparameters:
+      n_estimators: 100
+      max_depth: 6
+      learning_rate: 0.1
+      random_state: 42
+
+# Feature Engineering
+features:
+  lag_features: [1, 3, 6, 12, 24]  # hours
+  rolling_windows: [3, 6, 12, 24]  # hours
+  target_ahead: 24  # predict 24 hours ahead
+
+# Training Configuration
+training:
+  test_size: 0.2
+  validation_size: 0.1
+  random_state: 42
+  early_stopping_rounds: 10
+
+# Streamlit Configuration
+streamlit:
+  port: 8501
+  host: "0.0.0.0"
+  theme: "light"

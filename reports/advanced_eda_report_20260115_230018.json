@@ -1,0 +1,29 @@
+{
+  "data_summary": {
+    "total_records": 1008,
+    "cities_covered": 6,
+    "date_range": {
+      "start": "2026-01-08 22:59",
+      "end": "2026-01-15 21:59"
+    }
+  },
+  "aqi_statistics": {
+    "overall_mean": 108.42123015873017,
+    "overall_std": 66.82382212393901,
+    "overall_min": 20.0,
+    "overall_max": 372.5,
+    "overall_median": 92.6
+  },
+  "city_rankings": {
+    "best_city": "Chennai",
+    "worst_city": "Delhi",
+    "best_aqi": 51.04404761904762,
+    "worst_aqi": 188.075
+  },
+  "temporal_patterns": {
+    "peak_hour": 12,
+    "best_hour": 0,
+    "peak_hour_aqi": 161.80238095238096,
+    "best_hour_aqi": 57.19285714285714
+  }
+}
