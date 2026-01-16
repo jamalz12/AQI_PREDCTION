@@ -76,7 +76,7 @@ jobs:
         "
 
   model-training:
-    if: github.event.schedule == '0 2 * * *' || (github.event_name == 'workflow_dispatch' && github.event.inputs.train_models == 'true')
+    if: github.event.schedule == '0 2 * * *' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     needs: data-collection
 
@@ -105,19 +105,31 @@ jobs:
         models_dir = Path('src/models/saved_models')
         needs_training = 'true'
 
-        if models_dir.exists():
-            current_time = time.time()
-            recent_models = False
+        # For manual runs, always train to ensure pipeline works
+        event_name = os.getenv('GITHUB_EVENT_NAME', '')
+        if event_name == 'workflow_dispatch':
+            print('🤖 Manual workflow trigger detected - forcing training')
+            needs_training = 'true'
+        else:
+            # For scheduled runs, check if models are recent
+            if models_dir.exists():
+                current_time = time.time()
+                recent_models = False
 
-            for model_file in models_dir.glob('*karachi*.joblib'):
-                if (current_time - model_file.stat().st_mtime) < (24 * 3600):  # 24 hours
-                    recent_models = True
-                    break
+                for model_file in models_dir.glob('*karachi*.joblib'):
+                    age_hours = (current_time - model_file.stat().st_mtime) / 3600
+                    print(f'📊 Found model: {model_file.name} (age: {age_hours:.1f} hours)')
+                    if age_hours < 24:  # 24 hours
+                        recent_models = True
+                        break
 
-            if recent_models:
-                needs_training = 'false'
+                if recent_models:
+                    needs_training = 'false'
+                    print('⏭️  Recent models found - skipping training')
+                else:
+                    print('🔄 No recent models - training needed')
 
-        print(f'needs_training={needs_training}')
+        print(f'Final decision: needs_training={needs_training}')
         with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
             f.write(f'needs_training={needs_training}\\n')
         "
