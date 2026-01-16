@@ -1,5 +1,10 @@
 name: Karachi AQI CI/CD Pipeline
 
+# Automated CI/CD pipeline for Karachi AQI prediction system
+# - Data collection: Every hour
+# - Model training: Daily at 2 AM UTC
+# - Manual trigger: Available via workflow_dispatch
+
 on:
   schedule:
     # Run data collection every hour
