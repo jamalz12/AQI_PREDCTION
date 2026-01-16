@@ -253,11 +253,12 @@ The project includes automated CI/CD using GitHub Actions for continuous data co
 ### GitHub Actions Setup
 
 1. **Workflow Location**: `.github/workflows/karachi-aqi-pipeline.yml`
-2. **Automated Schedule**:
+2. **Requirements**: Uses `requirements-ci.txt` for minimal CI dependencies
+3. **Automated Schedule**:
    - Data collection: Every hour
    - Model training: Daily at 2 AM UTC
-3. **Manual Triggers**: Available via workflow dispatch
-4. **Required Secret**: Add `OPENWEATHER_API_KEY` as repository secret
+4. **Manual Triggers**: Available via workflow dispatch
+5. **Required Secret**: Add `OPENWEATHER_API_KEY` as repository secret
 
 ### Pipeline Features
 - **Automated Data Collection**: Hourly weather data collection for Karachi
